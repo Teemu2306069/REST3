@@ -49,6 +49,47 @@ class Urheilija {
     let sql = `SELECT * FROM urheilijat WHERE id=${id}`;
     return db.execute(sql);
   }
+
+  static async deleteById(id) {
+    let sql = `DELETE FROM urheilijat WHERE ID=${id}`;
+    return db.execute(sql);
+  }
+
+  static async updateById(
+    id,
+    etunimi,
+    sukunimi,
+    kutsumanimi,
+    syntymavuosi,
+    paino,
+    kuva,
+    laji,
+    saavutukset
+  ) {
+    const sql = `
+        UPDATE urheilijat 
+        SET etunimi = ?, 
+            sukunimi = ?, 
+            kutsumanimi = ?, 
+            syntymavuosi = ?, 
+            paino = ?, 
+            kuva = ?, 
+            laji = ?, 
+            saavutukset = ? 
+        WHERE ID = ?`;
+
+    return db.execute(sql, [
+      etunimi,
+      sukunimi,
+      kutsumanimi,
+      syntymavuosi,
+      paino,
+      kuva,
+      laji,
+      saavutukset,
+      id,
+    ]);
+  }
 }
 
 module.exports = Urheilija;
