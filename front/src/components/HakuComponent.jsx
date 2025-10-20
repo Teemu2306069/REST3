@@ -1,35 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import UrheilijatContext from "../contexts/UrheilijatContext";
 
 const Haku_lomake = () => {
   const [hakuehto, setHakuehto] = useState("");
   const [data, setData] = useState(null);
+  const urheilijaContext = useContext(UrheilijatContext);
 
   useEffect(() => {
-    console.log("hakuehto muuttui:", hakuehto); //näytetään aina kun hakuehtoa muutetaan
+    console.log("hakuehto muuttui:", hakuehto);
   }, [hakuehto]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let response = "";
-    try {
-      const url = `http://localhost:3001/urheilijat/${hakuehto}`;
-      response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const vastaus = await response.json();
-      setData(vastaus);
-      if (response.ok) {
-        console.log("Urheilija löytyi:", vastaus);
-      } else {
-        console.log("Urheilijaa ei löytynyt. Server vastasi:", response.status);
-      }
-    } catch (error) {
-      console.error("Tapahtui virhe:", error);
+
+    const idToSearch = parseInt(hakuehto, 10);
+    const result = urheilijaContext.getUrheilija(idToSearch);
+
+    if (result) {
+      setData(result);
+    } else {
+      console.log("Urheilijaa ei löytynyt");
+      setData(null);
     }
   };
+
   return (
     <div>
       <h1>Urheilijan haku</h1>

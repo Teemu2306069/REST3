@@ -1,33 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UrheilijatContext from "../contexts/UrheilijatContext";
 
 const Poisto_lomake = () => {
+  const urheilijatContext = useContext(UrheilijatContext);
   const [id, setId] = useState("");
-  const [message, setMessage] = useState(""); // For displaying success or error messages
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(`http://localhost:3001/urheilijat/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    const idToDelete = parseInt(id, 10);
 
-      if (response.ok) {
-        setMessage("Poisto onnistui!");
-        setId("");
-      } else {
-        setMessage(
-          "Urheilijan poisto ei onnistunut. Server vastasi: " + response.status
-        );
-      }
-    } catch (error) {
-      setMessage("Tapahtui virhe: " + error.message);
-      return;
+    const success = await urheilijatContext.deleteUrheilija(idToDelete);
+
+    if (success) {
+      setMessage("Poisto onnistui!");
+      setId("");
+    } else {
+      setMessage("Urheilijan poisto ei onnistunut.");
     }
   };
+
   return (
     <>
       <h1>Urheilijan poisto</h1>

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UrheilijatContext from "../contexts/UrheilijatContext";
 
 const Paivitys_lomake = () => {
+  const urheilijatContext = useContext(UrheilijatContext);
   const [etunimi, setEtunimi] = useState("");
   const [sukunimi, setSukunimi] = useState("");
   const [kutsumanimi, setKutsumanimi] = useState("");
@@ -10,12 +12,12 @@ const Paivitys_lomake = () => {
   const [laji, setLaji] = useState("");
   const [saavutukset, setSaavutukset] = useState("");
   const [id, setId] = useState("");
-  const [message, setMessage] = useState(""); // For displaying success or error messages
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newUrheilija = {
+    const updatedUrheilija = {
       etunimi,
       sukunimi,
       kutsumanimi,
@@ -26,37 +28,24 @@ const Paivitys_lomake = () => {
       saavutukset,
     };
 
-    try {
-      const response = await fetch(`http://localhost:3001/urheilijat/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUrheilija),
-      });
+    const success = await urheilijatContext.editUrheilija(id, updatedUrheilija);
 
-      if (response.ok) {
-        setMessage("Päivitys onnistui!");
-        setEtunimi("");
-        setSukunimi("");
-        setKutsumanimi("");
-        setSyntymavuosi("");
-        setPaino("");
-        setKuva("");
-        setLaji("");
-        setId("");
-        setSaavutukset("");
-      } else {
-        setMessage(
-          "Urheilijan päivitys ei onnistunut. Server vastasi: " +
-            response.status
-        );
-      }
-    } catch (error) {
-      setMessage("Tapahtui virhe: " + error.message);
-      return;
+    if (success) {
+      setMessage("Päivitys onnistui!");
+      setEtunimi("");
+      setSukunimi("");
+      setKutsumanimi("");
+      setSyntymavuosi("");
+      setPaino("");
+      setKuva("");
+      setLaji("");
+      setId("");
+      setSaavutukset("");
+    } else {
+      setMessage("Urheilijan päivitys ei onnistunut.");
     }
   };
+
   return (
     <>
       <h1>Urheilijan päivitys</h1>
@@ -99,7 +88,7 @@ const Paivitys_lomake = () => {
 
         <label>Syntymavuosi:</label>
         <input
-          type="number" // Changed to number input
+          type="number"
           id="syntymavuosi"
           value={syntymavuosi}
           onChange={(e) => setSyntymavuosi(e.target.value)}
@@ -108,7 +97,7 @@ const Paivitys_lomake = () => {
 
         <label>Paino:</label>
         <input
-          type="number" // Changed to number input
+          type="number"
           id="paino"
           value={paino}
           onChange={(e) => setPaino(e.target.value)}
@@ -142,7 +131,7 @@ const Paivitys_lomake = () => {
           required
         />
 
-        <button type="submit">Lisää urheilija</button>
+        <button type="submit">Päivitä urheilija</button>
       </form>
       {message && <p>{message}</p>}
     </>
