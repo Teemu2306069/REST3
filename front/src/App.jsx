@@ -12,15 +12,38 @@ function App() {
     <>
       <GlobalState>
         <BrowserRouter>
-          <div className="App">
+          <div className="bg-gray-50 dark:bg-gray-700  min-h-screen p-5">
             {/* Navigation */}
-            <nav>
-              <Link to="/Haku">Etsi urheilija</Link> |{" "}
-              <Link to="/Lisays">Lisää urheilija</Link> |{" "}
-              <Link to="/Paivitys">Päivitä urheilijaa</Link> |{" "}
-              <Link to="/Poisto">Poista urheilija</Link>
+            <nav className="bg-white dark:bg-gray-800  p-4">
+              <Link
+                to="/Haku"
+                className="text-blue-600 dark:text-white hover:underline"
+              >
+                Etsi urheilija
+              </Link>{" "}
+              |{" "}
+              <Link
+                to="/Lisays"
+                className="text-blue-600 dark:text-white hover:underline"
+              >
+                Lisää urheilija
+              </Link>{" "}
+              |{" "}
+              <Link
+                to="/Paivitys"
+                className="text-blue-600 dark:text-white hover:underline"
+              >
+                Päivitä urheilijaa
+              </Link>{" "}
+              |{" "}
+              <Link
+                to="/Poisto"
+                className="text-blue-600 dark:text-white hover:underline"
+              >
+                Poista urheilija
+              </Link>
             </nav>
-            <div className="container">
+            <div>
               {/* Routes */}
               <Routes>
                 <Route path="/Haku" element={<Haku_lomake />} />

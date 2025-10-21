@@ -16,7 +16,7 @@ const GlobalState = (props) => {
       });
       const vastaus = await response.json();
       if (response.ok) {
-        console.log("Urheilija löytyi:", vastaus);
+        console.log("Urheilijoita löytyi:", vastaus);
         setUrheilijat(vastaus);
       } else {
         console.log("Urheilijaa ei löytynyt. Server vastasi:", response.status);

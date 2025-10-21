@@ -25,34 +25,49 @@ const Haku_lomake = () => {
   };
 
   return (
-    <div>
-      <h1>Urheilijan haku</h1>
+    <div className="bg-white dark:bg-gray-800 p-5 max-w-md mx-auto mt-10">
+      <h1 className="font-bold mb-6 dark:text-white">Urheilijan haku</h1>
       <form onSubmit={handleSubmit}>
-        <div className="search">
+        <div className="mb-4">
           <div>
-            <label>Hakuehto</label>
+            <label htmlFor="hakuehto_id" className="dark:text-white">
+              Hakuehto
+            </label>
             <input
               type="text"
               id="hakuehto_id"
               value={hakuehto}
               onChange={(e) => setHakuehto(e.target.value)}
               required
+              placeholder="Urheilijan id..."
+              className="w-full border border-gray-300  focus:ring  placeholder-gray-400 dark:placeholder-gray-300 dark:text-white"
             />
           </div>
         </div>
-        <button type="submit">Etsi</button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-700 "
+        >
+          Etsi
+        </button>
         {data && (
-          <div>
-            <h3>Urheilijan tiedot:</h3>
-            <div>
+          <div className="mt-4">
+            <h3 className="font-semibold dark:text-white">
+              Urheilijan tiedot:
+            </h3>
+            <div className="mt-2 dark:text-white">
               <p>Etunimi: {data.etunimi}</p>
               <p>Sukunimi: {data.sukunimi}</p>
               <p>Kutsumanimi: {data.kutsumanimi}</p>
               <p>Syntymavuosi: {data.syntymavuosi}</p>
               <p>Paino: {data.paino}</p>
-              <p>
-                <img src={data.kuva} alt={data.kutsumanimi} />
-              </p>
+              <div className="flex justify-center mt-2">
+                <img
+                  src={data.kuva}
+                  alt={data.kutsumanimi}
+                  className="max-w-full h-auto"
+                />
+              </div>
               <p>Laji: {data.laji}</p>
               <p>Saavutukset: {data.saavutukset}</p>
             </div>
